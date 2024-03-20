@@ -17,7 +17,11 @@ def main():
         soup = BeautifulSoup(html, 'html.parser')
         game_ct = len(soup.find_all(class_='Scoreboard'))
         league = url.split('/')[3]
-        games[league] = soup.find_all(class_='Scoreboard')
+        if league not in games:
+            games[league] = []
+        games_html = soup.find_all(class_='Scoreboard')
+        for game_html in games_html:
+            games[league].append(Game(league, game_html))
         print(f'League: {league.upper()} has {game_ct} games today.')
     #print(soup.find_all(class_='Scoreboard'))
     #print(soup.prettify())
